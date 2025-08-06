@@ -11,5 +11,9 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Hello from backend' });
+  res.json({ message: 'Hello home page' });
+});
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });
