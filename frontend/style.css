@@ -55,10 +55,14 @@ nav {
 
 #links a {
     font-family: Montserrat;
-    color: white;
+    color: rgb(220, 255, 255);
     font-size: 20px;
     font-weight: bold;
     text-decoration: none;
+}
+
+#links a:hover {
+    color: white;
 }
 
 #links #login {
@@ -68,6 +72,11 @@ nav {
     padding: 0.5em;
     background-color:azure ;
     border-radius: 0.5rem;
+}
+
+#links #login:hover {
+    color: rgb(0, 100, 100);
+    background-color: white;
 }
 
 #donate {
@@ -99,6 +108,11 @@ nav {
     font-family: Montserrat;
     font-weight: bold;
     background-color: azure;
+}
+
+#donate-btn:hover {
+    color: rgb(0, 100, 100);
+    background-color: white;
 }
 
 #small-catalog {
