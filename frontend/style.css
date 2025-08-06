@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: Montserrat;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    /* background-color: teal; */
+    background-image: url("bg.jpeg");
+    background-size: 100vw 100vh;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+    position: fixed;
+    z-index: 1000;
+    background-color: rgba(0, 128, 128, 0.75);
+}
+
+#logo {
+    display: flex;
+    width: 75px;
+    height: 75px;
+    background-color: azure;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+#links {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-right: 10px;
+    align-items: center;
+}
+
+#links a {
+    font-family: Montserrat;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#links #login {
+    color: teal;
+    height: fit-content;
+    width: fit-content;
+    padding: 0.5em;
+    background-color:azure ;
+    border-radius: 0.5rem;
+}
+
+#donate {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    top: 0;
+    left: 0;
+    height: 80vh;
+    width: 100%;
+    background-color: rgba(0, 128, 128, 0.75);
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+}
+
+#donate span {
+    color: azure;
+    font-weight: bold;
+    font-size: 32px;
+}
+
+#donate-btn {
+    color: teal;
+    border-radius: 1rem;
+    border-width: 0;
+    padding: 0.5em;
+    font-size: 32px;
+    font-family: Montserrat;
+    font-weight: bold;
+    background-color: azure;
+}
+
+#small-catalog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    gap: 20px;
+    width: 100vw;
+    height: fit-content;
+    background-color: azure;
+}
+
+#small-catalog span {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: teal;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+#listings {
+    height: 100%;
+    width: 100%;
+    padding: 1em;
+}
+
+#list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    justify-content: center;
+    list-style: none;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: fit-content;
+    width: auto;
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 3px solid teal;
+    gap: 0.3em;
+}
+
+.item img {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    min-width: 100px;
+    border-radius: 0.7rem;
+    border: 2px solid teal
+}
+
+#small-catalog .item .item-name, #small-catalog .item .item-desc {
+    font-weight: 600;
+    overflow: hidden;
+    margin: 0;
+}
+
+#small-catalog .item .item-name {
+    color: teal;
+    font-size: 24px;
+}
+
+#small-catalog .item .item-desc {
+    color: rgb(0, 93, 93);
+    font-size: 14px;
+}
+
+footer {
+    background-color: teal;
+    color: azure;
+    padding: 3em;
+    padding-top: 2em;
+}
+
+footer span {
+    
+}
