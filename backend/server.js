@@ -10,12 +10,15 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-
-
-app.get('/hello', (req, res) => {
-  res.json({ message: 'Hello Homepage' });
+app.get('/', (req, res) => {
+  res.redirect('/main');
 });
 
+app.get('/main', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/main.html'));
+});
+
+
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log(`✅ Test server running at http://localhost:${port}`);
 });
