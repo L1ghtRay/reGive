@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
     box-sizing: border-box;
@@ -12,6 +12,7 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
+    overflow: auto;
 }
 
 body {
@@ -94,9 +95,10 @@ nav {
 }
 
 #donate span {
+    font-family: Homemade Apple;
     color: azure;
     font-weight: bold;
-    font-size: 32px;
+    font-size: 48px;
 }
 
 #donate-btn {
@@ -168,6 +170,13 @@ nav {
     border: 2px solid teal
 }
 
+.item.focused {
+    box-shadow: 0 0 20px rgba(0, 128, 128, 0.7);
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
 #small-catalog .item .item-name, #small-catalog .item .item-desc {
     font-weight: 600;
     overflow: hidden;
@@ -191,6 +200,6 @@ footer {
     padding-top: 2em;
 }
 
-footer span {
-    
+footer li {
+    list-style: none;
 }
