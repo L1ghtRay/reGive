@@ -8,14 +8,13 @@ const port = 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 
-app.get('/', (req, res) => {
+
+app.get('/hello', (req, res) => {
   res.json({ message: 'Hello Homepage' });
 });
-
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
