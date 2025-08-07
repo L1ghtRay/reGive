@@ -20,6 +20,7 @@ body {
     background-size: 100vw 100vh;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    margin-top: 70px; /* Adjust to match nav height */
 }
 
 nav {
@@ -29,10 +30,11 @@ nav {
     left: 0;
     width: 100%;
     justify-content: space-between;
-    padding: 1rem 1rem;
+    padding: 1rem 2rem;
     position: fixed;
     z-index: 1000;
-    background-color: rgba(0, 128, 128, 0.75);
+    background-color: rgba(0, 128, 128, 0.85); /* teal with transparency */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 #logo {
@@ -179,4 +181,183 @@ footer {
 
 footer span {
     
+}
+
+.profile-section {
+  background: white;
+  margin: 40px auto 24px auto; /* extra top margin to avoid nav overlap */
+  padding: 24px;
+  border-radius: 12px;
+  max-width: 700px;
+  box-shadow: 0 2px 8px rgba(0,128,128,0.10);
+  border: 2px solid teal;
+}
+
+.profile-section h2 {
+  color: teal;
+  margin-bottom: 18px;
+  font-weight: bold;
+}
+
+.profile-basic {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.profile-basic .avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid teal;
+}
+
+.profile-basic div > div {
+  color: teal;
+}
+
+.profile-basic button {
+  background: teal;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: bold;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+.profile-basic button:hover {
+  background: #008080cc;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 40px;
+  font-size: 1.1em;
+  margin-top: 10px;
+}
+
+.profile-stats div {
+  color: teal;
+}
+
+.listings {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.listing-item {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1.5px solid teal;
+}
+
+.listing-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid teal;
+}
+
+.listing-item button {
+  background: teal;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-weight: bold;
+  margin-right: 8px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.listing-item button:hover {
+  background: #008080cc;
+}
+
+.donation-history {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.donation-history th, .donation-history td {
+  color: teal;
+  border: 1px solid teal;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.donation-history th {
+  background: #e0f7fa;
+}
+
+.feedback-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.feedback-item {
+  background: #f9f9f9;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1.5px solid teal;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}  background: #008080cc;.settings-list button:hover {}  cursor: pointer;  font-weight: bold;  padding: 8px 16px;  border-radius: 6px;  border: none;  color: white;  background: teal;.settings-list button {}  color: teal;.feedback-item strong, .stars {}  color: teal;.feedback-item strong, .stars {
+  color: teal;
+}
+
+.stars {
+  color: #FFD700;
+  font-size: 1.2em;
+}
+
+.settings-list {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.settings-list button {
+  background: teal;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.settings-list button:hover {
+  background: #008080cc;
 }
