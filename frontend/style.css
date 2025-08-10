@@ -19,9 +19,6 @@ body {
   height: 100%;
   overflow: auto;
   overscroll-behavior: none;
-}
-
-body {
   background-image: url("bg.jpeg");
   background-size: 100vw 100vh;
   background-repeat: no-repeat;
