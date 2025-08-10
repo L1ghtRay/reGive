@@ -27,6 +27,7 @@ body {
     background-size: 100vw 100vh;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    margin-top: 70px; /* Adjust to match nav height */
 }
 
 nav {
@@ -36,10 +37,11 @@ nav {
     left: 0;
     width: 100%;
     justify-content: space-between;
-    padding: 1rem 1rem;
+    padding: 1rem 2rem;
     position: fixed;
     z-index: 1000;
-    background-color: rgba(0, 128, 128, 0.75);
+    background-color: rgba(0, 128, 128, 0.85); /* teal with transparency */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 #logo {
