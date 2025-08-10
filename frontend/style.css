@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
   box-sizing: border-box;
@@ -7,22 +7,23 @@
   padding: 0;
 }
 
-html,
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-}
-
-body {
-  /* background-color: teal; */
+  overflow: auto;
+  overscroll-behavior: none;
   background-image: url("bg.jpeg");
   background-size: 100vw 100vh;
   background-repeat: no-repeat;
   background-attachment: fixed;
   margin-top: 70px;
-  /* Adjust to match nav height */
 }
 
 nav {
@@ -36,7 +37,6 @@ nav {
   position: fixed;
   z-index: 1000;
   background-color: rgba(0, 128, 128, 0.85);
-  /* teal with transparency */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
@@ -60,10 +60,14 @@ nav {
 
 #links a {
   font-family: Montserrat;
-  color: white;
+  color: azure
   font-size: 20px;
   font-weight: bold;
   text-decoration: none;
+}
+
+#links a:hover {
+  color: white;
 }
 
 #links #login {
@@ -73,6 +77,11 @@ nav {
   padding: 0.5em;
   background-color: azure;
   border-radius: 0.5rem;
+}
+
+#links #login:hover {
+  color: rgb(0, 100, 100);
+  background-color: white;
 }
 
 #donate {
@@ -90,9 +99,10 @@ nav {
 }
 
 #donate span {
+  font-family: Homemade Apple;
   color: azure;
   font-weight: bold;
-  font-size: 32px;
+  font-size: 48px;
 }
 
 #donate-btn {
@@ -104,6 +114,11 @@ nav {
   font-family: Montserrat;
   font-weight: bold;
   background-color: azure;
+}
+
+#donate-btn:hover {
+  color: rgb(0, 100, 100);
+  background-color: white;
 }
 
 #small-catalog {
@@ -159,6 +174,13 @@ nav {
   border: 2px solid teal
 }
 
+.item.focused {
+  box-shadow: 0 0 20px rgba(0, 128, 128, 0.7);
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
 #small-catalog .item .item-name,
 #small-catalog .item .item-desc {
   font-weight: 600;
@@ -182,8 +204,6 @@ footer {
   padding: 3em;
   padding-top: 2em;
 }
-
-footer span {}
 
 .profile-section {
   background: white;
