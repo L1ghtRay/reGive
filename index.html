@@ -4,18 +4,25 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Homepage | reGive</title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="frontend/style.css">
         <script src="frontend/js/script.js"></script>
+        <script src="https://accounts.google.com/gsi/client" async></script>
     </head>
     <body>
+        <div
+        id="g_id_onload"
+        data-auto_prompt="false"
+        data-callback="handleCredentialResponse"
+        data-client_id="382639480415-hqvtdsgjidhiml0k20qvghv6t4taqt0d.apps.googleusercontent.com"
+        ></div>
         <nav>
             <div id="logo">Logo</div>
             <div id="links">
                 <a href="/">Home</a>
                 <a href="donate.html">Donate</a>
                 <a href="">Catalog</a>
-                <a href="/user-profile.html">Profile</a>
-                <a href="" id="login">Login</a>
+                <a href="frontend/user-profile.html">Profile</a>
+                <button id="login">Login</button>
             </div>
         </nav>
         <section id="donate">
