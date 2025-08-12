@@ -7,44 +7,96 @@
   <title>User Profile | reGive</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js"></script>
+  <script>
+    //Edit Profile Funtcion.
+    document.addEventListener("DOMContentLoaded", function () {
+      const editBtn = document.getElementById("edit-profile-btn");
+      const profileInfo = document.getElementById("profile-info");
+      const editForm = document.getElementById("edit-profile-form");
+
+      editBtn.addEventListener("click", function () {
+        profileInfo.style.display = "none";
+        editForm.style.display = "block";
+      });
+
+      document.getElementById("save-profile-btn").addEventListener("click", function (e) {
+        e.preventDefault();
+       
+        document.getElementById("profile-name").textContent = document.getElementById("edit-name").value;
+        document.getElementById("profile-email").textContent = document.getElementById("edit-email").value;
+        document.getElementById("profile-phone").textContent = document.getElementById("edit-phone").value;
+        document.getElementById("profile-location").textContent = document.getElementById("edit-location").value;
+        
+        editForm.style.display = "none";
+        profileInfo.style.display = "block";
+      });
+
+      document.getElementById("cancel-profile-btn").addEventListener("click", function (e) {
+        e.preventDefault();
+        editForm.style.display = "none";
+        profileInfo.style.display = "block";
+      });
+    });
+  </script>
 </head>
 
 <body>
   <nav>
-    <div id="logo">Logo</div>
-    <div id="links">
-      <a href="main.html">Home</a>
-      <a href="donate.html">Donate</a>
-      <a href="">Catalog</a>
-      <a href="user-profile.html">Profile</a>
-      <a href="" id="login">Login</a>
-    </div>
-  </nav>
+  <div id="logo">Logo</div>
+  <div id="links">
+    <a href="/">Home</a>
+    <a href="donate.html">Donate</a>
+    <a href="/category.html">Catalog</a>
+    <a href="user-profile.html">Profile</a>
+    <a href="" id="login">Login</a>
+  </div>
+</nav>
 
   <div class="container" id="userprof">
     <section class="profile-section">
-      <h2>🧑 User Profile</h2>
+      <h2>User Profile</h2>
       <div class="profile-basic">
         <img src="avatar.jpg" alt="Profile Picture" class="avatar">
         <div>
-          <div><strong>Name:</strong> John Doe</div>
-          <div><strong>Email:</strong> johndoe@example.com</div>
-          <div><strong>Phone:</strong> +91-9876543210</div>
-          <div><strong>Location:</strong> New Delhi, India</div>
-          <div><strong>Joined Date:</strong> January 2025</div>
-          <button>Edit Profile</button>
+          
+          <div id="profile-info">
+            <div><strong>Name:</strong> <span id="profile-name">Harry P</span></div>
+            <div><strong>Email:</strong> <span id="profile-email">230000@tkmce.ac.in</span></div>
+            <div><strong>Phone:</strong> <span id="profile-phone">+91-9876543210</span></div>
+            <div><strong>Location:</strong> <span id="profile-location">Kollam, Kerala</span></div>
+            <div><strong>Joined Date:</strong> January 2025</div>
+            <button id="edit-profile-btn">Edit Profile</button>
+            <button>Change Password</button>
+          </div>
+          <!-- Edit Form -->
+          <form id="edit-profile-form" style="display:none;">
+            <div>
+              <label>Name: <input type="text" id="edit-name" value="John Doe"></label>
+            </div>
+            <div>
+              <label>Email: <input type="email" id="edit-email" value="johndoe@example.com"></label>
+            </div>
+            <div>
+              <label>Phone: <input type="text" id="edit-phone" value="+91-9876543210"></label>
+            </div>
+            <div>
+              <label>Location: <input type="text" id="edit-location" value="New Delhi, India"></label>
+            </div>
+            <button id="save-profile-btn">Save</button>
+            <button id="cancel-profile-btn">Cancel</button>
+          </form>
         </div>
       </div>
     </section>
     <section class="profile-section">
-      <h2>🏆 Rewards & Stats</h2>
+      <h2>Rewards & Stats</h2>
       <div class="profile-stats">
         <div><strong>Total Reward Points:</strong> 120</div>
         <div><strong>Items Donated:</strong> 12</div>
       </div>
     </section>
     <section class="profile-section">
-      <h2>📦 Active Listings</h2>
+      <h2>Active Listings</h2>
       <div class="listings">
         <div class="listing-item">
           <img src="stock-item.jpg" alt="Item Image">
@@ -71,7 +123,7 @@
       </div>
     </section>
     <section class="profile-section">
-      <h2>📜 Donation History</h2>
+      <h2>Donation History</h2>
       <table class="donation-history">
         <thead>
           <tr>
@@ -97,29 +149,8 @@
         </tbody>
       </table>
     </section>
-    <section class="profile-section">
-      <h2>💬 Feedback</h2>
-      <div class="feedback-list">
-        <div class="feedback-item">
-          <div><strong>Comment:</strong> Great quality items!</div>
-          <div><strong>From:</strong> Alice</div>
-          <div class="stars">⭐⭐⭐⭐⭐</div>
-        </div>
-        <div class="feedback-item">
-          <div><strong>Comment:</strong> Fast response and delivery.</div>
-          <div><strong>From:</strong> Bob</div>
-          <div class="stars">⭐⭐⭐⭐</div>
-        </div>
-      </div>
-    </section>
-    <section class="profile-section">
-      <h2>🔒 Settings</h2>
-      <div class="settings-list">
-        <button>Change Password</button>
-        <button>Delete Account</button>
-        <button>Email Preferences</button>
-      </div>
-    </section>
+    
+    
   </div>
   <footer>
     <div>
