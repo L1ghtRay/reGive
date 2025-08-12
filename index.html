@@ -5,16 +5,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Homepage | reGive</title>
         <link rel="stylesheet" href="style.css">
-        <script src="frontend/js/script.js"></script>
+        <script src="js/script.js" defer></script>
     </head>
     <body>
         <nav>
             <div id="logo">Logo</div>
             <div id="links">
-                <a href="/">Home</a>
+                <a href="">Home</a>
                 <a href="donate.html">Donate</a>
                 <a href="">Catalog</a>
-                <a href="/user-profile.html">Profile</a>
+               
+                <a href="user-profile.html">Profile</a>
+                
+                <!-- Profile Dropdown (hidden by default) -->
+                <div id="profile-dropdown" class="profile-container" style="display: none;">
+                    <button id="profile-btn" class="profile-button">
+                      <span class="welcome-text">Welcome Asiya!</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="" class="dropdown-item">Wish List</a>
+                        <a href="" class="dropdown-item">My List</a>
+                        <a href="" class="dropdown-item">Help</a>
+                        <a href="" class="dropdown-item logout" id="logout-btn">Logout</a>
+                    </div>
+                </div>
+                
                 <a href="" id="login">Login</a>
             </div>
         </nav>
