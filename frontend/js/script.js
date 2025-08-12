@@ -84,8 +84,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-<<<<<<< HEAD
-});
 
 
 //Asiya
@@ -200,5 +198,4 @@ document.addEventListener('keydown', function(e) {
         closeDropdown();
     }
 });
-=======
->>>>>>> 9dcc02c236d605b087b5f197236e04734c455dab
+
