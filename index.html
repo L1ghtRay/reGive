@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage | reGive</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="js/script.js" defer></script>
+    <link rel="stylesheet" href="frontend/style.css">
+    <script src="frontend/js/script.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async></script>
+</head>
+<body>
+    <div id="g_id_onload" data-auto_prompt="false" data-callback="handleCredentialResponse"
+        data-client_id="382639480415-hqvtdsgjidhiml0k20qvghv6t4taqt0d.apps.googleusercontent.com">
+    </div>
+    <nav>
+        <div id="logo">Logo</div>
+        <div id="links">
+            <a href="">Home</a>
+            <a href="/category.html">Donate</a>
+            <a href="">Catalog</a>
+            <a href="/user-profile.html">Profile</a>
+
+            <div id="profile-dropdown" class="profile-container" style="display: none;">
+                <button id="profile-btn" class="profile-button">
+                    <span class="welcome-text">Welcome Asiya!</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="" class="dropdown-item">Wish List</a>
+                    <a href="" class="dropdown-item">My List</a>
+                    <a href="" class="dropdown-item">Help</a>
+                    <a href="" class="dropdown-item logout" id="logout-btn">Logout</a>
+                </div>
+            </div>
+
+            <a href="" id="login">Login</a>
+            <a href="reg.html" id="signup">Sign Up</a>
+        </div>
+    </nav>
+    
+    <section id="donate">
+        <span>Donate to those who Need</span>
+        <button id="donate-btn">Donate</button>
+    </section>
+
+    <section id="small-catalog">
+        <span>Listings</span>
+        <div id="listings">
+            <ul id="list">
+                <li class="item">
+                    <img src="stock-item.jpg">
+                    <span class="item-name">Stationary</span>
+                    <span class="item-desc">A bunch of pencils and pens</span>
+                </li>
+                <!-- Repeat sample items -->
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <div>
+            <span>Contact Us</span>
+            <ul>
+                <li>Email</li>
+                <li>Phone No.</li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>
