@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +42,7 @@
             position: fixed;
             z-index: 1000;
             background-color: rgba(0, 128, 128, 0.85);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         #logo {
@@ -119,7 +120,7 @@
             background: white;
             padding: 40px;
             border-radius: 0 0 12px 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border: 2px solid teal;
             border-top: none;
         }
@@ -293,7 +294,7 @@
             background: white;
         }
 
-        .condition-option input[type="radio"]:checked + label {
+        .condition-option input[type="radio"]:checked+label {
             border-color: teal;
             background: #e0f7fa;
             color: teal;
@@ -351,11 +352,11 @@
             border-radius: 50%;
         }
 
-        input:checked + .toggle-slider {
+        input:checked+.toggle-slider {
             background-color: teal;
         }
 
-        input:checked + .toggle-slider:before {
+        input:checked+.toggle-slider:before {
             transform: translateX(30px);
         }
 
@@ -471,16 +472,14 @@
                 width: 100%;
                 max-width: 300px;
             }
+
             .hidden {
-  display: none;
-}
-
-
-   
-
+                display: none;
+            }
         }
     </style>
 </head>
+
 <body>
     <nav>
         <div id="logo">reGive</div>
@@ -489,7 +488,7 @@
             <a href="/category.html">Donate</a>
             <a href="">Catalog</a>
             <a href="/user-profile.html">Profile</a>
-            <a href="" id="login">Login</a>
+            <a href="/auth/google" id="login">Login</a>
         </div>
     </nav>
 
@@ -506,14 +505,12 @@
 
             <div class="form-section">
                 <h3>Basic Information</h3>
-                
+
                 <div class="form-group">
                     <label for="itemTitle">Item Title *</label>
                     <input type="text" id="itemTitle" name="itemTitle" placeholder="e.g., Engineering Textbooks, Laptop, Study Table" required>
                     <div class="error-message" id="titleError">Please enter a descriptive title</div>
                 </div>
-
-
 
                 <div class="form-group">
                     <label for="description">Description *</label>
@@ -630,18 +627,16 @@
                         <label for="contactInPerson">Meet in person</label>
                     </div>
                 </div>
-                 <div class="form-group">
-      <label>Is the item paid?</label>
-      <label><input type="radio" name="isPaid" value="yes"> Yes</label>
-      <label><input type="radio" name="isPaid" value="no" checked> No</label>
-    </div>
+                <div class="form-group">
+                    <label>Is the item paid?</label>
+                    <label><input type="radio" name="isPaid" value="yes"> Yes</label>
+                    <label><input type="radio" name="isPaid" value="no" checked> No</label>
+                </div>
 
-    <div id="priceDiv" class="form-group hidden">
-      <label for="price">Enter Price (₹):</label>
-      <input type="number" id="price" name="price" min="1" placeholder="Enter amount">
-    </div>
-
-
+                <div id="priceDiv" class="form-group hidden">
+                    <label for="price">Enter Price (₹):</label>
+                    <input type="number" id="price" name="price" min="1" placeholder="Enter amount">
+                </div>
             </div>
 
             <div class="form-actions">
@@ -781,16 +776,16 @@
 
             setTimeout(() => {
                 document.getElementById('successMessage').style.display = 'block';
-                
+
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                
+
                 document.getElementById('donateForm').reset();
                 uploadedImages = [];
                 displayImages();
-                
+
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
-                
+
                 setTimeout(() => {
                     document.getElementById('successMessage').style.display = 'none';
                 }, 5000);
@@ -820,7 +815,7 @@
 
         let draftTimer;
         const formInputs = document.querySelectorAll('input, select, textarea');
-        
+
         formInputs.forEach(input => {
             input.addEventListener('input', () => {
                 clearTimeout(draftTimer);
@@ -841,30 +836,30 @@
         window.addEventListener('load', () => {
             const selectedCategory = localStorage.getItem('selectedCategory');
             const selectedSubcategory = localStorage.getItem('selectedSubcategory');
-            
+
             if (selectedCategory && selectedSubcategory) {
                 const categorySelect = document.getElementById('category');
                 const categoryMap = {
                     'books': 'books',
-                    'stationery': 'stationery', 
+                    'stationery': 'stationery',
                     'electronics': 'electronics',
                     'clothing': 'clothing',
                     'furniture': 'furniture',
                     'sports': 'sports'
                 };
-                
+
                 if (categoryMap[selectedCategory]) {
                     categorySelect.value = categoryMap[selectedCategory];
                 }
-                
+
                 const subcategoryInput = document.getElementById('subcategory');
                 const subcategoryName = selectedSubcategory.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
                 subcategoryInput.value = subcategoryName;
-                
+
                 localStorage.removeItem('selectedCategory');
                 localStorage.removeItem('selectedSubcategory');
             }
-            
+
             const draft = localStorage.getItem('donationDraft');
             if (draft) {
                 const draftData = JSON.parse(draft);
@@ -897,7 +892,7 @@
         descriptionField.addEventListener('input', () => {
             const length = descriptionField.value.length;
             charCounter.textContent = `${length}/500 characters`;
-            
+
             if (length > 500) {
                 charCounter.style.color = '#d32f2f';
             } else if (length < 20) {
@@ -909,46 +904,35 @@
 
         descriptionField.dispatchEvent(new Event('input'));
 
-
-
-
-
-
         document.addEventListener("DOMContentLoaded", function () {
-  const paidRadios = document.querySelectorAll('input[name="isPaid"]');
-  const priceDiv = document.getElementById("priceDiv");
-  const priceInput = document.getElementById("price");
+            const paidRadios = document.querySelectorAll('input[name="isPaid"]');
+            const priceDiv = document.getElementById("priceDiv");
+            const priceInput = document.getElementById("price");
 
-  paidRadios.forEach(radio => {
-    radio.addEventListener("change", function () {
-      if (this.value === "yes") {
-        priceDiv.style.display = "block";
-        priceInput.required = true;
-      } else {
-        priceDiv.style.display = "none";
-        priceInput.required = false;
-        priceInput.value = "";
-      }
-    });
-  });
+            paidRadios.forEach(radio => {
+                radio.addEventListener("change", function () {
+                    if (this.value === "yes") {
+                        priceDiv.style.display = "block";
+                        priceInput.required = true;
+                    } else {
+                        priceDiv.style.display = "none";
+                        priceInput.required = false;
+                        priceInput.value = "";
+                    }
+                });
+            });
 
-  // Initial state when page loads
-  const selectedPaidOption = document.querySelector('input[name="isPaid"]:checked');
-  if (selectedPaidOption && selectedPaidOption.value === "yes") {
-    priceDiv.style.display = "block";
-    priceInput.required = true;
-  } else {
-    priceDiv.style.display = "none";
-    priceInput.required = false;
-  }
-});
-
-
-
-
-
-
-
+            // Initial state when page loads
+            const selectedPaidOption = document.querySelector('input[name="isPaid"]:checked');
+            if (selectedPaidOption && selectedPaidOption.value === "yes") {
+                priceDiv.style.display = "block";
+                priceInput.required = true;
+            } else {
+                priceDiv.style.display = "none";
+                priceInput.required = false;
+            }
+        });
     </script>
 </body>
+
 </html>
