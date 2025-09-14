@@ -1,7 +1,10 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import connectDB from './config/db.js'; 
+import passport from 'passport';
+import session from 'express-session';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import connectDB from './config/db.js';
 import Admin from './models/admin.js';
 import Category from './models/categories.js';
 import Item from './models/items.js';
@@ -23,8 +26,42 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 
+app.use(session({
+  secret: "secret",
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_CALLBACK_URL
+}, (accessToken, refreshToken, profile, done) => {
+  return done(null, profile);
+}));
+
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => done(null, user));
+
 // Connect to DB
 connectDB();
+
+// Login
+app.get("/auth/google", passport.authenticate('google', { scope: ["profile", "email"] }));
+
+app.get("/auth/google/callback", passport.authenticate('google', { failureRedirect: "/" }), (req, res) => {
+  res.redirect('/user-profile')
+});
+
+app.get("/logout", (req, res, next) => {
+  req.logout(err => {
+    if (err) { return next(err); }
+    res.redirect("/")
+  });
+})
 
 // CREATED FOR TRIAL ONLY (DB CONNECTION CHECK)
 app.post("/api/admins", async (req, res) => {
