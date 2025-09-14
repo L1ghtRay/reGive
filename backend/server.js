@@ -16,14 +16,14 @@ dotenv.config();
 
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 5000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 
-// ✅ Connect to DB
+// Connect to DB
 connectDB();
 
 // CREATED FOR TRIAL ONLY (DB CONNECTION CHECK)
@@ -129,7 +129,7 @@ app.post("/api/users", async (req, res) => {
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/home.html'));
 });
 
 app.get('/user-profile', (req, res) => {
@@ -192,7 +192,7 @@ app.post('/api/admin/reports/:id/resolve', (req, res) => {
   res.status(204).send();
 });
 
-// ✅ Start server
+// Start server
 app.listen(port, () => {
-  console.log(`✅ Server running at http://localhost:${port}`);
+  console.log(`Server running at http://localhost:${port}`);
 });
