@@ -49,6 +49,8 @@ passport.deserializeUser((user, done) => done(null, user));
 // Connect to DB
 connectDB();
 
+app.set('view engine', 'ejs');
+
 // Login
 app.get("/auth/google", passport.authenticate('google', { scope: ["profile", "email"] }));
 
@@ -166,11 +168,23 @@ app.post("/api/users", async (req, res) => {
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/home.html'));
+  res.render('../frontend/views/home.ejs');
+});
+
+app.get('/category', (req, res) => {
+  res.render('../frontend/views/category.ejs');
+});
+
+app.get('/donate', (req, res) => {
+  res.render('../frontend/views/donate.ejs');
+});
+
+app.get('/reg', (req, res) => {
+  res.render('../frontend/views/reg.ejs');
 });
 
 app.get('/user-profile', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/user-profile.html'));
+  res.render('../frontend/views/user-profile.ejs');
 });
 
 // ... (other static routes remain same)
