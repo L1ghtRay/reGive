@@ -12,9 +12,9 @@
         <div id="logo">Logo</div>
         <div id="links">
             <a href="/">Home</a>
-            <a href="/category.html">Donate</a>
+            <a href="/category">Donate</a>
             <a href="">Catalog</a>
-            <a href="/user-profile.html">Profile</a>
+            <a href="/user-profile">Profile</a>
 
             <div id="profile-dropdown" class="profile-container" style="display: none;">
                 <button id="profile-btn" class="profile-button">
@@ -30,7 +30,7 @@
             </div>
 
             <a href="/auth/google" id="login">Login</a>
-            <a href="reg.html" id="signup">Sign Up</a>
+            <!-- <a href="/register" id="signup">Sign Up</a> -->
         </div>
     </nav>
     
@@ -43,31 +43,13 @@
         <span>Listings</span>
         <div id="listings">
             <ul id="list">
+                <% for (let i = 0; i < 5; i++) { %>
                 <li class="item">
                     <img src="img/stock-item.jpg">
                     <span class="item-name">Stationary</span>
                     <span class="item-desc">A bunch of pencils and pens</span>
                 </li>
-                <li class="item">
-                    <img src="img/stock-item.jpg">
-                    <span class="item-name">Stationary</span>
-                    <span class="item-desc">A bunch of pencils and pens</span>
-                </li>
-                <li class="item">
-                    <img src="img/stock-item.jpg">
-                    <span class="item-name">Stationary</span>
-                    <span class="item-desc">A bunch of pencils and pens</span>
-                </li>
-                <li class="item">
-                    <img src="img/stock-item.jpg">
-                    <span class="item-name">Stationary</span>
-                    <span class="item-desc">A bunch of pencils and pens</span>
-                </li>
-                <li class="item">
-                    <img src="img/stock-item.jpg">
-                    <span class="item-name">Stationary</span>
-                    <span class="item-desc">A bunch of pencils and pens</span>
-                </li>
+                <% }; %>
                 <!-- Repeat sample items -->
             </ul>
         </div>
