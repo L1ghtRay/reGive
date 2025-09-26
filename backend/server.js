@@ -122,6 +122,10 @@ app.get("/category", (req, res) => {
   res.render("../frontend/views/category.ejs");
 });
 
+app.get("/admin", (req, res) => {
+  res.render("../frontend/views/admin.ejs");
+});
+
 app.get("/donate", (req, res) => {
   res.render("../frontend/views/donate.ejs");
 });
