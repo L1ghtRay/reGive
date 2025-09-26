@@ -8,31 +8,7 @@
     <script src="js/script.js" defer></script>
 </head>
 <body>
-    <nav>
-        <div id="logo">Logo</div>
-        <div id="links">
-            <a href="/">Home</a>
-            <a href="/category">Donate</a>
-            <a href="">Catalog</a>
-            <a href="/user-profile">Profile</a>
-
-            <div id="profile-dropdown" class="profile-container" style="display: none;">
-                <button id="profile-btn" class="profile-button">
-                    <span class="welcome-text">Welcome Asiya!</span>
-                    <span class="dropdown-arrow">▼</span>
-                </button>
-                <div class="dropdown-menu">
-                    <a href="" class="dropdown-item">Wish List</a>
-                    <a href="" class="dropdown-item">My List</a>
-                    <a href="" class="dropdown-item">Help</a>
-                    <a href="" class="dropdown-item logout" id="logout-btn">Logout</a>
-                </div>
-            </div>
-
-            <a href="/auth/google" id="login">Login</a>
-            <!-- <a href="/register" id="signup">Sign Up</a> -->
-        </div>
-    </nav>
+    <%- include('partials/navbar') %>
     
     <section id="donate">
         <span>Donate to those who Need</span>

@@ -27,99 +27,71 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // //Asiya
-// const loginBtn = document.getElementById('login');
-// const profileDropdown = document.getElementById('profile-dropdown');
-// const profileBtn = document.getElementById('profile-btn');
-// const logoutBtn = document.getElementById('logout-btn');
+document.addEventListener('DOMContentLoaded', function() {
+    const profileDropdown = document.getElementById('profile-dropdown');
+    const profileBtn = document.getElementById('profile-btn');
+    const logoutBtn = document.getElementById('logout-btn');
 
-// // State
-// let isLoggedIn = false;
-// let isDropdownOpen = false;
+    if (!profileDropdown) return; // user is not logged in, no dropdown
 
-// document.addEventListener('DOMContentLoaded', function() {
-//     setupEventListeners();
-// });
+    let isDropdownOpen = false;
 
-// function setupEventListeners() {
-//     loginBtn.addEventListener('click', function(e) {
-//         e.preventDefault();
-//         handleLogin();
-//     });
-    
-//     profileBtn.addEventListener('click', function(e) {
-//         e.preventDefault();
-//         toggleDropdown();
-//     });
-    
-//     logoutBtn.addEventListener('click', function(e) {
-//         e.preventDefault();
-//         handleLogout();
-//     });
-    
-//     document.addEventListener('click', handleOutsideClick);
-    
-//     profileDropdown.addEventListener('click', function(e) {
-//         e.stopPropagation();
-//     });
-    
-//     const dropdownItems = document.querySelectorAll('.dropdown-item:not(.logout)');
-//     dropdownItems.forEach(item => {
-//         item.addEventListener('click', function(e) {
-//             e.preventDefault();
-//             closeDropdown();
+    // Toggle dropdown
+    profileBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        isDropdownOpen = !isDropdownOpen;
+        updateDropdownState();
+    });
 
-//         });
-//     });
-// }
+    // Stop propagation when clicking inside dropdown
+    profileDropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
 
-// function handleLogin() {
-//     isLoggedIn = true;
-//     updateUIState();
-// }
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (isDropdownOpen && !profileDropdown.contains(e.target)) {
+            closeDropdown();
+        }
+    });
 
-// function handleLogout() {
-//     isLoggedIn = false;
-//     isDropdownOpen = false;
-//     updateUIState();
-// }
+    // Close dropdown with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isDropdownOpen) {
+            closeDropdown();
+        }
+    });
 
-// function toggleDropdown() {
-//     isDropdownOpen = !isDropdownOpen;
-//     updateDropdownState();
-// }
+    // Dropdown item clicks (except logout)
+    const dropdownItems = document.querySelectorAll('.dropdown-item:not(.logout)');
+    dropdownItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeDropdown();
+            window.location.href = item.getAttribute('href');
+        });
+    });
 
-// function closeDropdown() {
-//     isDropdownOpen = false;
-//     updateDropdownState();
-// }
+    // Logout button redirects
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/logout';
+        });
+    }
 
-// function handleOutsideClick(e) {
-//     if (isDropdownOpen && !profileDropdown.contains(e.target)) {
-//         closeDropdown();
-//     }
-// }
+    function closeDropdown() {
+        isDropdownOpen = false;
+        updateDropdownState();
+    }
 
-// function updateUIState() {
-//     if (isLoggedIn) {
-//         loginBtn.style.display = 'none';
-//         profileDropdown.style.display = 'inline-block';
-//     } else {
-//         profileDropdown.style.display = 'none';
-//         loginBtn.style.display = 'inline-block';
-//     }
-// }
+    function updateDropdownState() {
+        if (isDropdownOpen) {
+            profileDropdown.classList.add('active');
+        } else {
+            profileDropdown.classList.remove('active');
+        }
+    }
+});
 
-// function updateDropdownState() {
-//     if (isDropdownOpen) {
-//         profileDropdown.classList.add('active');
-//     } else {
-//         profileDropdown.classList.remove('active');
-//     }
-// }
-
-// document.addEventListener('keydown', function(e) {
-//     if (e.key === 'Escape' && isDropdownOpen) {
-//         closeDropdown();
-//     }
-// });
 
