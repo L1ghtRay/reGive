@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Profile | reGive</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css" />
     <script src="script.js"></script>
     <script>
       //Edit Profile Funtcion.
@@ -18,23 +18,31 @@
           editForm.style.display = "block";
         });
 
-        document.getElementById("save-profile-btn").addEventListener("click", function (e) {
-          e.preventDefault();
+        document
+          .getElementById("save-profile-btn")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
 
-          document.getElementById("profile-name").textContent = document.getElementById("edit-name").value;
-          document.getElementById("profile-email").textContent = document.getElementById("edit-email").value;
-          document.getElementById("profile-phone").textContent = document.getElementById("edit-phone").value;
-          document.getElementById("profile-location").textContent = document.getElementById("edit-location").value;
+            document.getElementById("profile-name").textContent =
+              document.getElementById("edit-name").value;
+            document.getElementById("profile-email").textContent =
+              document.getElementById("edit-email").value;
+            document.getElementById("profile-phone").textContent =
+              document.getElementById("edit-phone").value;
+            document.getElementById("profile-location").textContent =
+              document.getElementById("edit-location").value;
 
-          editForm.style.display = "none";
-          profileInfo.style.display = "block";
-        });
+            editForm.style.display = "none";
+            profileInfo.style.display = "block";
+          });
 
-        document.getElementById("cancel-profile-btn").addEventListener("click", function (e) {
-          e.preventDefault();
-          editForm.style.display = "none";
-          profileInfo.style.display = "block";
-        });
+        document
+          .getElementById("cancel-profile-btn")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            editForm.style.display = "none";
+            profileInfo.style.display = "block";
+          });
       });
     </script>
     <script>
@@ -49,30 +57,38 @@
           editForm.style.display = "block";
         });
 
-        document.getElementById("save-profile-btn").addEventListener("click", function (e) {
-          e.preventDefault();
+        document
+          .getElementById("save-profile-btn")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
 
-          document.getElementById("profile-name").textContent = document.getElementById("edit-name").value;
-          document.getElementById("profile-email").textContent = document.getElementById("edit-email").value;
-          document.getElementById("profile-phone").textContent = document.getElementById("edit-phone").value;
-          document.getElementById("profile-location").textContent = document.getElementById("edit-location").value;
+            document.getElementById("profile-name").textContent =
+              document.getElementById("edit-name").value;
+            document.getElementById("profile-email").textContent =
+              document.getElementById("edit-email").value;
+            document.getElementById("profile-phone").textContent =
+              document.getElementById("edit-phone").value;
+            document.getElementById("profile-location").textContent =
+              document.getElementById("edit-location").value;
 
-          editForm.style.display = "none";
-          profileInfo.style.display = "block";
-        });
+            editForm.style.display = "none";
+            profileInfo.style.display = "block";
+          });
 
-        document.getElementById("cancel-profile-btn").addEventListener("click", function (e) {
-          e.preventDefault();
-          editForm.style.display = "none";
-          profileInfo.style.display = "block";
-        });
+        document
+          .getElementById("cancel-profile-btn")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            editForm.style.display = "none";
+            profileInfo.style.display = "block";
+          });
       });
     </script>
   </head>
 
   <body>
     <nav>
-      <div id="logo">Logo</div>
+      <div id="logo"><img src="../img/logo.png" width="100" /></div>
       <div id="links">
         <a href="/">Home</a>
         <a href="/category.html">Donate</a>
@@ -86,60 +102,115 @@
       <section class="profile-section">
         <h2>User Profile</h2>
         <div class="profile-basic">
-          <img src="img/avatar.jpg" alt="Profile Picture" class="avatar">
+          <img src="img/avatar.jpg" alt="Profile Picture" class="avatar" />
           <div>
-
             <div id="profile-info">
-              <div><strong>Name:</strong> <span id="profile-name">Harry P</span></div>
-              <div><strong>Email:</strong> <span id="profile-email">230000@tkmce.ac.in</span></div>
-              <div><strong>Phone:</strong> <span id="profile-phone">+91-9876543210</span></div>
-              <div><strong>Location:</strong> <span id="profile-location">Kollam, Kerala</span></div>
+              <div>
+                <strong>Name:</strong> <span id="profile-name">Harry P</span>
+              </div>
+              <div>
+                <strong>Email:</strong>
+                <span id="profile-email">230000@tkmce.ac.in</span>
+              </div>
+              <div>
+                <strong>Phone:</strong>
+                <span id="profile-phone">+91-9876543210</span>
+              </div>
+              <div>
+                <strong>Location:</strong>
+                <span id="profile-location">Kollam, Kerala</span>
+              </div>
               <div><strong>Joined Date:</strong> January 2025</div>
               <button id="edit-profile-btn">Edit Profile</button>
               <button>Change Password</button>
             </div>
 
             <!-- Edit Form -->
-            <form id="edit-profile-form" style="display:none;">
+            <form id="edit-profile-form" style="display: none">
               <div>
-                <label>Name: <input type="text" id="edit-name" value="John Doe"></label>
+                <label
+                  >Name: <input type="text" id="edit-name" value="John Doe"
+                /></label>
               </div>
               <div>
-                <label>Email: <input type="email" id="edit-email" value="johndoe@example.com"></label>
+                <label
+                  >Email:
+                  <input
+                    type="email"
+                    id="edit-email"
+                    value="johndoe@example.com"
+                /></label>
               </div>
               <div>
-                <label>Phone: <input type="text" id="edit-phone" value="+91-9876543210"></label>
+                <label
+                  >Phone:
+                  <input type="text" id="edit-phone" value="+91-9876543210"
+                /></label>
               </div>
               <div>
-                <label>Location: <input type="text" id="edit-location" value="New Delhi, India"></label>
+                <label
+                  >Location:
+                  <input
+                    type="text"
+                    id="edit-location"
+                    value="New Delhi, India"
+                /></label>
               </div>
               <button id="save-profile-btn">Save</button>
               <button id="cancel-profile-btn">Cancel</button>
             </form>
 
             <div id="profile-info">
-              <div><strong>Name:</strong> <span id="profile-name">Harry P</span></div>
-              <div><strong>Email:</strong> <span id="profile-email">230000@tkmce.ac.in</span></div>
-              <div><strong>Phone:</strong> <span id="profile-phone">+91-9876543210</span></div>
-              <div><strong>Location:</strong> <span id="profile-location">Kollam, Kerala</span></div>
+              <div>
+                <strong>Name:</strong> <span id="profile-name">Harry P</span>
+              </div>
+              <div>
+                <strong>Email:</strong>
+                <span id="profile-email">230000@tkmce.ac.in</span>
+              </div>
+              <div>
+                <strong>Phone:</strong>
+                <span id="profile-phone">+91-9876543210</span>
+              </div>
+              <div>
+                <strong>Location:</strong>
+                <span id="profile-location">Kollam, Kerala</span>
+              </div>
               <div><strong>Joined Date:</strong> January 2025</div>
               <button id="edit-profile-btn">Edit Profile</button>
               <button>Change Password</button>
             </div>
-            
+
             <!-- Edit Form -->
-            <form id="edit-profile-form" style="display:none;">
+            <form id="edit-profile-form" style="display: none">
               <div>
-                <label>Name: <input type="text" id="edit-name" value="John Doe"></label>
+                <label
+                  >Name: <input type="text" id="edit-name" value="John Doe"
+                /></label>
               </div>
               <div>
-                <label>Email: <input type="email" id="edit-email" value="johndoe@example.com"></label>
+                <label
+                  >Email:
+                  <input
+                    type="email"
+                    id="edit-email"
+                    value="johndoe@example.com"
+                /></label>
               </div>
               <div>
-                <label>Phone: <input type="text" id="edit-phone" value="+91-9876543210"></label>
+                <label
+                  >Phone:
+                  <input type="text" id="edit-phone" value="+91-9876543210"
+                /></label>
               </div>
               <div>
-                <label>Location: <input type="text" id="edit-location" value="New Delhi, India"></label>
+                <label
+                  >Location:
+                  <input
+                    type="text"
+                    id="edit-location"
+                    value="New Delhi, India"
+                /></label>
               </div>
               <button id="save-profile-btn">Save</button>
               <button id="cancel-profile-btn">Cancel</button>
@@ -158,7 +229,7 @@
         <h2>Active Listings</h2>
         <div class="listings">
           <div class="listing-item">
-            <img src="img/stock-item.jpg" alt="Item Image">
+            <img src="img/stock-item.jpg" alt="Item Image" />
             <div>
               <div><strong>Name:</strong> Stationary Set</div>
               <div><strong>Category:</strong> Stationary</div>
@@ -169,7 +240,7 @@
             </div>
           </div>
           <div class="listing-item">
-            <img src="img/stock-item.jpg" alt="Item Image">
+            <img src="img/stock-item.jpg" alt="Item Image" />
             <div>
               <div><strong>Name:</strong> Backpack</div>
               <div><strong>Category:</strong> Bags</div>
@@ -208,10 +279,6 @@
           </tbody>
         </table>
       </section>
-
-
-
-
     </div>
     <footer>
       <div>
@@ -223,5 +290,4 @@
       </div>
     </footer>
   </body>
-
 </html>

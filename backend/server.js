@@ -8,6 +8,7 @@ import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 import User from "./models/users.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import donationRoutes from "./routes/donationroutes.js";
 
 dotenv.config();
 
@@ -16,8 +17,12 @@ const port = process.env.PORT || 5000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Define uploadDir BEFORE using it
+const uploadDir = path.join(__dirname, "uploads");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/uploads", express.static(uploadDir));
 
 app.use(
   session({
@@ -32,8 +37,7 @@ app.use(passport.session());
 
 // Make `user` available in all EJS views
 app.use((req, res, next) => {
-  res.locals.user = req.user; // accessible in all EJS templates as `user`
-  // console.log('\n--------------\n', res.locals.user, '\n------------------\n');
+  res.locals.user = req.user;
   next();
 });
 
@@ -43,6 +47,7 @@ app.use(express.static(path.join(__dirname, "../frontend")));
 // Connect to DB
 connectDB();
 
+// Passport Google Strategy
 passport.use(
   new GoogleStrategy(
     {
@@ -52,8 +57,6 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        // console.log(profile);
-
         let user = await User.findOne({ email: profile._json.email });
 
         if (!user) {
@@ -68,6 +71,7 @@ passport.use(
 
         return done(null, user);
       } catch (err) {
+        console.error("Google auth error:", err);
         return done(err, null);
       }
     }
@@ -84,7 +88,7 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// Login
+// Auth Routes
 app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -110,10 +114,10 @@ app.get("/logout", (req, res, next) => {
   });
 });
 
+// Set view engine
 app.set("view engine", "ejs");
 
 // Page Routes
-
 app.get("/", (req, res) => {
   res.render("../frontend/views/home.ejs");
 });
@@ -141,12 +145,16 @@ app.get("/initial-login", (req, res) => {
 });
 
 // Post routes
-
 app.post("/initial-login", async (req, res) => {
   if (!req.isAuthenticated()) return res.redirect("/");
 
   try {
     const { displayName, phone, address } = req.body;
+
+    // Validate required fields
+    if (!displayName || !phone || !address) {
+      return res.status(400).send("All fields are required");
+    }
 
     await User.findByIdAndUpdate(req.user._id, {
       displayName,
@@ -162,7 +170,21 @@ app.post("/initial-login", async (req, res) => {
   }
 });
 
+// API Routes
 app.use("/api/admin", adminRoutes);
+app.use("/api", donationRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Something went wrong!" });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
