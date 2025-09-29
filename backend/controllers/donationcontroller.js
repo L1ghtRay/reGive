@@ -57,18 +57,20 @@ export const donateItem = async (req, res) => {
       });
     }
 
-    //1.
+    
     // Find category document
-    // const categoryDoc = await Category.findOne({
-    //   name: category.trim().replace(/\r?\n/g, " "),
-    // });
+    const categoryDoc = await Category.findOne({
+     name: category.trim().replace(/\r?\n/g, " "),
+     });
 
-    // if (!categoryDoc) {
-    //   return res.status(400).json({
-    //     error: "Invalid Category",
-    //     message: "The selected category does not exist",
-    //   });
-    // }
+    if (!categoryDoc) {
+       return res.status(400).json({
+         error: "Invalid Category",
+         message: "The selected category does not exist",
+       });
+     }
+
+     //Find Donor
 
     // // Validate subcategory if provided
     // if (
@@ -128,7 +130,7 @@ export const donateItem = async (req, res) => {
         urgentDonation === "true" ||
         urgentDonation === true,
       available_until: availableUntil || null,
-      categoryId: "68d631a64579b36c80a811f0", //3.
+      categoryId: categoryDoc._id,
       subcategory: subcategory ? subcategory.trim() : "",
       preferences: contactMethodsArray,
       imageURL: imageURLs,
