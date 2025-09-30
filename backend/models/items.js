@@ -5,7 +5,6 @@ const itemSchema = new mongoose.Schema(
     name: { type: String, required: true, trim: true },
     description: { type: String, required: true },
     imageURL: { type: [String], default: [] },
-    tags: { type: [String], default: [] },
 
     donorId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -27,7 +26,14 @@ const itemSchema = new mongoose.Schema(
     urgent: { type: Boolean, default: false },
     condition: {type: String, required: true},
 
-    preferences: { type: [String], default: [] },
+preferences: { 
+  type: [String], 
+  required: true,       
+  validate: {
+    validator: (arr) => arr.length > 0,  
+    message: "At least one preference is required"
+  }
+},
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "category",

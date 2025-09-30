@@ -111,6 +111,31 @@ export const donateItem = async (req, res) => {
       }
     }
 
+
+    //validating date
+    // Validate availableUntil
+let finalDate = null;
+if (availableUntil) {
+  finalDate = new Date(availableUntil);
+  const today = new Date();
+  today.setHours(0,0,0,0); // normalize to midnight
+
+  if (isNaN(finalDate.getTime())) {
+    return res.status(400).json({
+      error: "Validation Error",
+      message: "Invalid date format for availableUntil"
+    });
+  }
+
+  if (finalDate < today) {
+    return res.status(400).json({
+      error: "Validation Error",
+      message: "Available until date cannot be in the past"
+    });
+  }
+}
+
+
     // Handle image URLs // currently storing file paths, need to be changes to Urls when w store it in cloud
     const imageURLs =
       req.files && req.files.length > 0
@@ -130,12 +155,11 @@ export const donateItem = async (req, res) => {
         urgentDonation === "on" ||
         urgentDonation === "true" ||
         urgentDonation === true,
-      available_until: availableUntil || null,
+      available_until: finalDate || null,
       categoryId: categoryDoc._id,
       subcategory: subcategory ? subcategory.trim() : "",
       preferences: contactMethodsArray,
       imageURL: imageURLs,
-      tags: condition ? [condition.trim()] : [],
     });
 
     console.log("Item created successfully:", newItem);
