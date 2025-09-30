@@ -122,6 +122,7 @@ export const donateItem = async (req, res) => {
       name: itemTitle.trim(),
       description: description ? description.trim() : "",
       pickup: location.trim(),
+      condition: condition.trim(),
       donorId: req.user._id,
       isPaid: isPaid === "yes" || isPaid === true,
       price: finalPrice,

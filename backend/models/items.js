@@ -25,6 +25,7 @@ const itemSchema = new mongoose.Schema(
     pickup: { type: String, required: true },
     available_until: { type: Date },
     urgent: { type: Boolean, default: false },
+    condition: {type: String, required: true},
 
     preferences: { type: [String], default: [] },
     categoryId: {
