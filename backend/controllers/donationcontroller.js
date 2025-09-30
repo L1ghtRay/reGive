@@ -11,15 +11,13 @@ export const donateItem = async (req, res) => {
     console.log("req.body:", req.body);
     console.log("req.files:", req.files);
 
-    //2.
-    // console.log("req.user:", req.user);
+  if (!req.user) {
+    return res.status(401).json({
+    error: "Unauthorized",
+    message: "User not authenticated",
+  });
+  }
 
-    // if (!req.user) {
-    //   return res.status(401).json({
-    //     error: "Unauthorized",
-    //     message: "User not authenticated",
-    //   });
-    // }
 
     const {
       itemTitle,
@@ -72,6 +70,8 @@ export const donateItem = async (req, res) => {
 
      //Find Donor
 
+     
+
     // // Validate subcategory if provided
     // if (
     //   subcategory &&
@@ -122,7 +122,7 @@ export const donateItem = async (req, res) => {
       name: itemTitle.trim(),
       description: description ? description.trim() : "",
       pickup: location.trim(),
-      donorId: "68d631a64579b36c80a811f0", //3.
+      donorId: req.user._id,
       isPaid: isPaid === "yes" || isPaid === true,
       price: finalPrice,
       urgent:
