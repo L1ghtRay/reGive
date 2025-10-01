@@ -9,6 +9,7 @@ import dotenv from "dotenv";
 import User from "./models/users.js";
 import adminRoutes from "./routes/adminroutes.js";
 import donationRoutes from "./routes/donationroutes.js";
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -26,8 +27,14 @@ app.use("/uploads", express.static(uploadDir));
 app.use(session({
     secret: "secret",
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,   // prevents client-side JS from reading cookie
+        secure: false,    // must be false on localhost (no HTTPS)
+        sameSite: "lax"   // safe for OAuth redirects on localhost
+    }
 }));
+app.use(cookieParser());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -47,8 +54,9 @@ connectDB();
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL
-}, async (accessToken, refreshToken, profile, done) => {
+    callbackURL: process.env.GOOGLE_CALLBACK_URL,
+    passReqToCallback: true
+}, async (req, accessToken, refreshToken, profile, done) => {
     try {
         // console.log(profile);
 
@@ -81,20 +89,29 @@ passport.deserializeUser(async (id, done) => {
 });
 
 function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next(); // continue to the route
-    }
-    res.redirect('/auth/google'); // or res.redirect('/login');
-}
+    if (req.isAuthenticated()) return next();
 
+    // Store original URL in a cookie
+    res.cookie('returnTo', req.originalUrl, { httpOnly: true });
+    return res.redirect('/auth/google');
+}
 // Login
 app.get("/auth/google", passport.authenticate('google', { scope: ["profile", "email"] }));
 
 app.get("/auth/google/callback", passport.authenticate('google', { failureRedirect: "/" }), (req, res) => {
+    console.log("callback BEFORE redirect: sessionID =", req.sessionID, "returnTo =", req.session?.returnTo);
+
     if (!req.user.setupComplete) {
-        return res.redirect('/initial-login')
+        return res.redirect('/initial-login');
     }
-    res.redirect('/');
+
+    // Read the redirect URL from the cookie
+    const redirectUrl = req.cookies?.returnTo || '/';
+
+    // Clear the cookie after using it
+    res.clearCookie('returnTo');
+
+    res.redirect(redirectUrl);
 });
 
 app.get("/logout", (req, res, next) => {
@@ -106,32 +123,34 @@ app.get("/logout", (req, res, next) => {
 
 app.set('view engine', 'ejs');
 
+app.set('views', path.join(__dirname, '../frontend/views'));
+
 // Page Routes
 
 app.get('/', (req, res) => {
-    res.render('../frontend/views/home.ejs');
+    res.render('home');
 });
 
-app.get('/category', (req, res) => {
-    res.render('../frontend/views/category.ejs');
+app.get('/category', ensureAuthenticated, (req, res) => {
+    res.render('category');
 });
 
 app.get('/donate', ensureAuthenticated, (req, res) => {
-    res.render('../frontend/views/donate.ejs');
+    res.render('donate');
 });
 
 app.get("/admin", ensureAuthenticated, (req, res) => {
-    res.render("../frontend/views/admin.ejs");
+    res.render("admin");
 });
 
 app.get('/user-profile', ensureAuthenticated, (req, res) => {
-    res.render('../frontend/views/user-profile.ejs');
+    res.render('user-profile');
 });
 
 app.get('/initial-login', (req, res) => {
     if (!req.isAuthenticated()) return res.redirect('/');
     if (req.user.setupComplete) return res.redirect('/');
-    res.render('../frontend/views/initial.ejs', { user: req.user });
+    res.render('initial', { user: req.user });
 });
 
 // Post routes
@@ -149,7 +168,11 @@ app.post('/initial-login', async (req, res) => {
             setupComplete: true
         });
 
-        res.redirect('/');
+        // Read the cookie again, fallback to home
+        const redirectUrl = req.cookies.returnTo || '/';
+        res.clearCookie('returnTo');
+
+        res.redirect(redirectUrl);
     } catch (err) {
         console.error("Error during initial setup:", err);
         res.status(500).send("Something went wrong during setup.");
