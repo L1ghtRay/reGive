@@ -53,15 +53,7 @@
     </head>
     <body>
 
-        <nav>
-            <div id="logo">Logo</div>
-            <div id="links">
-                <a href="/">Home</a>
-                <a href="/category">Donate</a>
-                <a href="/catalog">Catalog</a>
-                <a href="/user-profile">Profile</a>
-            </div>
-        </nav>
+        <%- include('partials/navbar') %>
 
         <div class="bg-tint">
             <div class="setup-container">
@@ -76,14 +68,6 @@
             </div>
         </div>
 
-        <footer>
-            <div>
-                <span>Contact Us</span>
-                <ul>
-                    <li>Email: support@regive.com</li>
-                    <li>Phone: +91-1234567890</li>
-                </ul>
-            </div>
-        </footer>
+        <%- include('partials/footer') %>
     </body>
 </html>

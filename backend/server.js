@@ -10,6 +10,9 @@ import User from "./models/users.js";
 import adminRoutes from "./routes/adminroutes.js";
 import donationRoutes from "./routes/donationroutes.js";
 import cookieParser from 'cookie-parser';
+import itemRoutes from   "./routes/itemroutes.js";
+import homeRoutes from "./routes/homeRoutes.js"; 
+
 
 dotenv.config();
 
@@ -18,8 +21,14 @@ const port = process.env.PORT || 5000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Define uploadDir BEFORE using it
-const uploadDir = path.join(__dirname, "uploads");
+// Define uploadDir BEFORE using it-images
+const uploadDir = path.join(__dirname, '..','uploads');
+
+//Asiya
+app.use((req,res,next)=>{
+res.locals.currentUser=req.user ||null;
+next();
+})
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -182,6 +191,12 @@ app.post('/initial-login', async (req, res) => {
 // API Routes
 app.use("/api/admin", adminRoutes);
 app.use("/api", donationRoutes);
+app.use("/api",itemRoutes)
+app.use("/", homeRoutes);
+
+// for images 
+
+app.use('/uploads', express.static(uploadDir));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -193,6 +208,7 @@ app.use((err, req, res, next) => {
 app.use((req, res) => {
     res.status(404).json({ error: "Route not found" });
 });
+
 
 // Start server
 app.listen(port, () => {

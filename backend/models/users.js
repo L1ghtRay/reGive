@@ -14,5 +14,5 @@ const userSchema = new mongoose.Schema({
   setupComplete: { type: Boolean, default: false }
 }, { timestamps: true });
 
-const User = mongoose.model("User", userSchema, "users");
+const User = mongoose.model("users", userSchema, "users");
 export default User;
