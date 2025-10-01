@@ -1,249 +1,220 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import passport from 'passport';
-import session from 'express-session';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import connectDB from './config/db.js';
-import Admin from './models/admin.js';
-import Category from './models/categories.js';
-import Item from './models/items.js';
-import Message from './models/message.js';
-import Recommendation from './models/recommendations.js';
-import Report from './models/reports.js';
-import Request from './models/requests.js';
-import Transaction from './models/transaction.js';
-import UserModel from './models/users.js';
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import passport from "passport";
+import session from "express-session";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import connectDB from "./config/db.js";
 import dotenv from "dotenv";
-dotenv.config();
+import User from "./models/users.js";
+import adminRoutes from "./routes/adminroutes.js";
+import donationRoutes from "./routes/donationroutes.js";
+import cookieParser from 'cookie-parser';
+import itemRoutes from   "./routes/itemroutes.js";
+import homeRoutes from "./routes/homeRoutes.js"; 
 
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.json());
+// Define uploadDir BEFORE using it-images
+const uploadDir = path.join(__dirname, '..','uploads');
 
+//Asiya
+app.use((req,res,next)=>{
+res.locals.currentUser=req.user ||null;
+next();
+})
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/uploads", express.static(uploadDir));
 app.use(session({
-  secret: "secret",
-  resave: false,
-  saveUninitialized: true
+    secret: "secret",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,   // prevents client-side JS from reading cookie
+        secure: false,    // must be false on localhost (no HTTPS)
+        sameSite: "lax"   // safe for OAuth redirects on localhost
+    }
 }));
+app.use(cookieParser());
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK_URL
-}, (accessToken, refreshToken, profile, done) => {
-  return done(null, profile);
-}));
+// Make `user` available in all EJS views
+app.use((req, res, next) => {
+    res.locals.user = req.user; // accessible in all EJS templates as `user`
+    next();
+});
 
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((user, done) => done(null, user));
+// Serve static frontend
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Connect to DB
 connectDB();
 
-app.set('view engine', 'ejs');
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK_URL,
+    passReqToCallback: true
+}, async (req, accessToken, refreshToken, profile, done) => {
+    try {
+        // console.log(profile);
 
+        let user = await User.findOne({ email: profile._json.email });
+
+        if (!user) {
+            user = await User.create({
+                name: profile._json.name,
+                displayName: profile._json.given_name,
+                email: profile._json.email,
+                profile: profile._json.picture,
+                setupComplete: false
+            });
+        }
+
+        return done(null, user);
+    } catch (err) {
+        return done(err, null);
+    }
+}));
+
+passport.serializeUser((user, done) => done(null, user.id));
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (err) {
+        done(err, null);
+    }
+});
+
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) return next();
+
+    // Store original URL in a cookie
+    res.cookie('returnTo', req.originalUrl, { httpOnly: true });
+    return res.redirect('/auth/google');
+}
 // Login
 app.get("/auth/google", passport.authenticate('google', { scope: ["profile", "email"] }));
 
 app.get("/auth/google/callback", passport.authenticate('google', { failureRedirect: "/" }), (req, res) => {
-  res.redirect('/user-profile')
+    console.log("callback BEFORE redirect: sessionID =", req.sessionID, "returnTo =", req.session?.returnTo);
+
+    if (!req.user.setupComplete) {
+        return res.redirect('/initial-login');
+    }
+
+    // Read the redirect URL from the cookie
+    const redirectUrl = req.cookies?.returnTo || '/';
+
+    // Clear the cookie after using it
+    res.clearCookie('returnTo');
+
+    res.redirect(redirectUrl);
 });
 
 app.get("/logout", (req, res, next) => {
-  req.logout(err => {
-    if (err) { return next(err); }
-    res.redirect("/")
-  });
+    req.logout(err => {
+        if (err) { return next(err); }
+        res.redirect("/")
+    });
 })
 
-// CREATED FOR TRIAL ONLY (DB CONNECTION CHECK)
-app.post("/api/admins", async (req, res) => {
-  try {
-    const admin = new Admin(req.body);
-    await admin.save();
-    res.status(201).json({ message: "Admin created successfully", admin });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+app.set('view engine', 'ejs');
 
-app.post("/api/categories", async (req, res) => {
-  try {
-    const category = new Category(req.body);
-    await category.save();
-    res.status(201).json({ message: "Category created successfully", category });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+app.set('views', path.join(__dirname, '../frontend/views'));
 
-app.post("/api/items", async (req, res) => {
-  try {
-    const newItem = new Item(req.body);
-    const savedItem = await newItem.save();
-    res.status(201).json(savedItem);
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: err.message });
-  }
-});
-
-app.post("/api/messages", async (req, res) => {
-  try {
-    const newMessage = new Message(req.body);
-    const savedMessage = await newMessage.save();
-    res.status(201).json(savedMessage);
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: err.message });
-  }
-});
-
-app.post("/api/recommendations", async (req, res) => {
-  try {
-    const newRecommendation = new Recommendation(req.body);
-    const savedRecommendation = await newRecommendation.save();
-    res.status(201).json(savedRecommendation);
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: err.message });
-  }
-});
-
-app.post("/api/reports", async (req, res) => {
-  try {
-    const newReport = new Report(req.body);
-    const savedReport = await newReport.save();
-    res.status(201).json(savedReport);
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: err.message });
-  }
-});
-
-app.post("/api/requests", async (req, res) => {
-  try {
-    const newRequest = new Request(req.body);
-    const savedRequest = await newRequest.save();
-    res.status(201).json(savedRequest);
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: err.message });
-  }
-});
-
-app.post("/api/transactions", async (req, res) => {
-  try {
-    const newTransaction = new Transaction(req.body);
-    const savedTransaction = await newTransaction.save();
-    res.status(201).json(savedTransaction);
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: err.message });
-  }
-});
-
-app.post("/api/users", async (req, res) => {
-  try {
-    const newUser = new UserModel(req.body);
-    const savedUser = await newUser.save();
-    res.status(201).json(savedUser);
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: err.message });
-  }
-});
-
-//
-
-app.use(express.static(path.join(__dirname, '../frontend')));
+// Page Routes
 
 app.get('/', (req, res) => {
-  res.render('../frontend/views/home.ejs');
+    res.render('home');
 });
 
-app.get('/category', (req, res) => {
-  res.render('../frontend/views/category.ejs');
+app.get('/category', ensureAuthenticated, (req, res) => {
+    res.render('category');
 });
 
-app.get('/donate', (req, res) => {
-  res.render('../frontend/views/donate.ejs');
+app.get('/donate', ensureAuthenticated, (req, res) => {
+    res.render('donate');
 });
 
-app.get('/reg', (req, res) => {
-  res.render('../frontend/views/reg.ejs');
+app.get('/catalog', (req, res) => {
+    res.render('catalog');
+})
+
+app.get("/admin", ensureAuthenticated, (req, res) => {
+    res.render("admin");
 });
 
-app.get('/user-profile', (req, res) => {
-  res.render('../frontend/views/user-profile.ejs');
+app.get('/user-profile', ensureAuthenticated, (req, res) => {
+    res.render('user-profile');
 });
 
-// ... (other static routes remain same)
-
-
-// --- Dummy data for statistics ---
-let users = [
-  { id: 1, name: 'John Doe', email: 'johndoe@example.com' },
-  { id: 2, name: 'Alice Smith', email: 'alice@example.com' },
-];
-let items = [
-  { id: 1, name: 'Stationary Set', category: 'Stationary', status: 'Available' },
-  { id: 2, name: 'Backpack', category: 'Bags', status: 'Used' },
-];
-let transactions = [
-  { id: 1, username: 'John Doe', itemName: 'Stationary Set', date: '2025-08-01', amount: 0 },
-  { id: 2, username: 'Alice Smith', itemName: 'Backpack', date: '2025-07-15', amount: 0 },
-];
-let reports = [
-  { id: 1, username: 'John Doe', issue: 'Item not as described', reportDate: '2025-08-03' },
-];
-
-// --- Admin API ---
-app.get('/api/admin/statistics', (req, res) => {
-  res.json({
-    totalUsers: users.length,
-    totalItems: items.length,
-    totalTransactions: transactions.length,
-    totalReports: reports.length,
-  });
+app.get('/initial-login', (req, res) => {
+    if (!req.isAuthenticated()) return res.redirect('/');
+    if (req.user.setupComplete) return res.redirect('/');
+    res.render('initial', { user: req.user });
 });
 
-app.get('/api/admin/users', (req, res) => res.json(users));
+// Post routes
 
-app.delete('/api/admin/users/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  users = users.filter(user => user.id !== id);
-  res.status(204).send();
+app.post('/initial-login', async (req, res) => {
+    if (!req.isAuthenticated()) return res.redirect('/');
+
+    try {
+        const { displayName, phone, address } = req.body;
+
+        await User.findByIdAndUpdate(req.user._id, {
+            displayName,
+            phone,
+            address,
+            setupComplete: true
+        });
+
+        // Read the cookie again, fallback to home
+        const redirectUrl = req.cookies.returnTo || '/';
+        res.clearCookie('returnTo');
+
+        res.redirect(redirectUrl);
+    } catch (err) {
+        console.error("Error during initial setup:", err);
+        res.status(500).send("Something went wrong during setup.");
+    }
 });
 
-app.get('/api/admin/items', (req, res) => res.json(items));
+// API Routes
+app.use("/api/admin", adminRoutes);
+app.use("/api", donationRoutes);
+app.use("/api",itemRoutes)
+app.use("/", homeRoutes);
 
-app.delete('/api/admin/items/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  items = items.filter(item => item.id !== id);
-  res.status(204).send();
+// for images 
+
+app.use('/uploads', express.static(uploadDir));
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: "Something went wrong!" });
 });
 
-app.get('/api/admin/transactions', (req, res) => res.json(transactions));
-
-app.get('/api/admin/reports', (req, res) => res.json(reports));
-
-app.post('/api/admin/reports/:id/resolve', (req, res) => {
-  const id = parseInt(req.params.id);
-  reports = reports.filter(report => report.id !== id);
-  res.status(204).send();
+// 404 handler
+app.use((req, res) => {
+    res.status(404).json({ error: "Route not found" });
 });
+
 
 // Start server
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+    console.log(`Server running at http://localhost:${port}`);
 });

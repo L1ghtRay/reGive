@@ -1,68 +1,55 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Homepage | reGive</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css" />
     <script src="js/script.js" defer></script>
 </head>
+
 <body>
-    <nav>
-        <div id="logo">Logo</div>
-        <div id="links">
-            <a href="/">Home</a>
-            <a href="/category">Donate</a>
-            <a href="">Catalog</a>
-            <a href="/user-profile">Profile</a>
+    <%- include('partials/navbar') %>
 
-            <div id="profile-dropdown" class="profile-container" style="display: none;">
-                <button id="profile-btn" class="profile-button">
-                    <span class="welcome-text">Welcome Asiya!</span>
-                    <span class="dropdown-arrow">▼</span>
-                </button>
-                <div class="dropdown-menu">
-                    <a href="" class="dropdown-item">Wish List</a>
-                    <a href="" class="dropdown-item">My List</a>
-                    <a href="" class="dropdown-item">Help</a>
-                    <a href="" class="dropdown-item logout" id="logout-btn">Logout</a>
-                </div>
-            </div>
-
-            <a href="/auth/google" id="login">Login</a>
-            <!-- <a href="/register" id="signup">Sign Up</a> -->
-        </div>
-    </nav>
-    
     <section id="donate">
         <span>Donate to those who Need</span>
         <button id="donate-btn">Donate</button>
     </section>
 
     <section id="small-catalog">
-        <span>Listings</span>
-        <div id="listings">
-            <ul id="list">
-                <% for (let i = 0; i < 5; i++) { %>
-                <li class="item">
-                    <img src="img/stock-item.jpg">
-                    <span class="item-name">Stationary</span>
-                    <span class="item-desc">A bunch of pencils and pens</span>
-                </li>
-                <% }; %>
-                <!-- Repeat sample items -->
-            </ul>
-        </div>
+      <span>Frequently Donated Items</span>
+      <div id="listings">
+        <ul id="list">
+          <% 
+            // Check if items were passed from the backend, defaulting to empty array
+            const displayItems = typeof frequentItems !== 'undefined' ? frequentItems : [];
+          %>
+          
+          <% displayItems.forEach(item => { %>
+            <a href="/api/search?q=<%= item.name %>" class="item">
+              <img 
+                src="<%= item.imageURL && item.imageURL.length > 0 ? item.imageURL[0] : '/img/stock-item.jpg' %>" 
+                alt="<%= item.name %> image" 
+                onerror="this.onerror=null; this.src='/img/stock-item.jpg';"
+              />
+              
+              <span class="item-name"><%= item.name %></span>
+              <span class="item-desc"><%= item.description %></span>
+            </a>
+          <% }); %>
+
+          <% if (displayItems.length === 0) { %>
+            <p>No frequently donated items found yet. Please check back later!</p>
+          <% } %>
+        </ul>
+      </div>
     </section>
 
-    <footer>
-        <div>
-            <span>Contact Us</span>
-            <ul>
-                <li>Email</li>
-                <li>Phone No.</li>
-            </ul>
-        </div>
-    </footer>
+    <%- include('partials/footer') %>
 </body>
+
 </html>
