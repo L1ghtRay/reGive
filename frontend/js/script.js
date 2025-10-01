@@ -90,3 +90,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+
+
+
+//Leaderboard datafettching
+async function loadLeaderboard() {
+  try {
+    const res = await fetch("/api/leaderboard");
+    const donors = await res.json();
+
+    const list = document.getElementById("leaderboardList");
+    list.innerHTML = "";
+
+    donors.forEach((donor, index) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span class="rank">#${index + 1}</span>
+        <img src="${donor.profile}" alt="${donor.name}" class="avatar"/>
+        <span class="name">${donor.displayName}</span>
+        <span class="points">${donor.points} pts</span>
+      `;
+      list.appendChild(li);
+    });
+  } catch (err) {
+    console.error("Failed to load leaderboard:", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadLeaderboard);
+

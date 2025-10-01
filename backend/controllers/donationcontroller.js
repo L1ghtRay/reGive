@@ -33,6 +33,14 @@ export const donateItem = async (req, res) => {
       contactMethods,
     } = req.body;
 
+
+
+    //increment points after  a donation
+    await User.findByIdAndUpdate(req.user._id, {
+  $inc: { points: 10 }  
+});
+
+
     // Validate required fields
     if (!itemTitle || !itemTitle.trim()) {
       return res.status(400).json({
