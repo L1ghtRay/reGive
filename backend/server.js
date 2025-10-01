@@ -7,8 +7,12 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 import User from "./models/users.js";
+import Item from "./models/items.js";
 import adminRoutes from "./routes/adminroutes.js";
 import donationRoutes from "./routes/donationroutes.js";
+import itemRoutes from   "./routes/itemroutes.js";
+import homeRoutes from "./routes/homeRoutes.js"; 
+
 
 dotenv.config();
 
@@ -17,8 +21,14 @@ const port = process.env.PORT || 5000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Define uploadDir BEFORE using it
-const uploadDir = path.join(__dirname, "uploads");
+// Define uploadDir BEFORE using it-images
+const uploadDir = path.join(__dirname, '..','uploads');
+
+//Asiya
+app.use((req,res,next)=>{
+res.locals.currentUser=req.user ||null;
+next();
+})
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -118,12 +128,14 @@ app.get("/logout", (req, res, next) => {
 app.set("view engine", "ejs");
 
 // Page Routes
+/*
 app.get("/", (req, res) => {
   res.render("../frontend/views/home.ejs");
-});
+});*/
+app.set('views', path.join(__dirname, '..', 'frontend', 'views'));
 
 app.get("/category", (req, res) => {
-  res.render("../frontend/views/category.ejs");
+  res.render("category.ejs");
 });
 
 app.get("/admin", (req, res) => {
@@ -131,12 +143,17 @@ app.get("/admin", (req, res) => {
 });
 
 app.get("/donate", (req, res) => {
-  res.render("../frontend/views/donate.ejs");
+  res.render("donate.ejs");
 });
 
 app.get("/user-profile", (req, res) => {
-  res.render("../frontend/views/user-profile.ejs");
+  res.render("user-profile.ejs");
 });
+
+app.get("/catalog",(req,res)=>{
+  res.render("catalog.ejs")
+})
+
 
 app.get("/initial-login", (req, res) => {
   if (!req.isAuthenticated()) return res.redirect("/");
@@ -173,6 +190,12 @@ app.post("/initial-login", async (req, res) => {
 // API Routes
 app.use("/api/admin", adminRoutes);
 app.use("/api", donationRoutes);
+app.use("/api",itemRoutes)
+app.use("/", homeRoutes);
+
+// for images 
+
+app.use('/uploads', express.static(uploadDir));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -184,6 +207,7 @@ app.use((err, req, res, next) => {
 app.use((req, res) => {
   res.status(404).json({ error: "Route not found" });
 });
+
 
 // Start server
 app.listen(port, () => {

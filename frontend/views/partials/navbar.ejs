@@ -1,9 +1,18 @@
 <nav>
   <div id="logo"><img src="../img/logo.png" width="100" /></div>
+       <form id="searchForm" action="/api/search"  method="get">
+  <input 
+    type="text" 
+    name="q" 
+    placeholder="Search items..." 
+    style="padding: 8px; border-radius: 5px; border: 1px solid teal; width: 500px;"
+  />
+</form>
+
   <div id="links">
     <a href="/">Home</a>
     <a href="/category">Donate</a>
-    <a href="/catalog">Catalog</a>
+    <a href="/catalog">Catalog</a>  
 
     <% if (user) { %>
     <div id="profile-dropdown" class="profile-container">
