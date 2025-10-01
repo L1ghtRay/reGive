@@ -40,7 +40,6 @@ app.use((req, res, next) => {
 
 // Serve static frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
->>>>>>> Sree
 
 // Connect to DB
 connectDB();
@@ -81,6 +80,13 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next(); // continue to the route
+    }
+    res.redirect('/auth/google'); // or res.redirect('/login');
+}
+
 // Login
 app.get("/auth/google", passport.authenticate('google', { scope: ["profile", "email"] }));
 
@@ -110,19 +116,15 @@ app.get('/category', (req, res) => {
     res.render('../frontend/views/category.ejs');
 });
 
-app.get('/donate', (req, res) => {
+app.get('/donate', ensureAuthenticated, (req, res) => {
     res.render('../frontend/views/donate.ejs');
 });
 
-app.get('/reg', (req, res) => {
-    res.render('../frontend/views/reg.ejs');
-});
-
-app.get("/admin", (req, res) => {
+app.get("/admin", ensureAuthenticated, (req, res) => {
     res.render("../frontend/views/admin.ejs");
 });
 
-app.get('/user-profile', (req, res) => {
+app.get('/user-profile', ensureAuthenticated, (req, res) => {
     res.render('../frontend/views/user-profile.ejs');
 });
 
@@ -166,7 +168,8 @@ app.use((err, req, res, next) => {
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ error: "Route not found" });
+    res.status(404).json({ error: "Route not found" });
+});
 
 // Start server
 app.listen(port, () => {
