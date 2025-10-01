@@ -11,15 +11,13 @@ export const donateItem = async (req, res) => {
     console.log("req.body:", req.body);
     console.log("req.files:", req.files);
 
-    //2.
-    // console.log("req.user:", req.user);
+  if (!req.user) {
+    return res.status(401).json({
+    error: "Unauthorized",
+    message: "User not authenticated",
+  });
+  }
 
-    // if (!req.user) {
-    //   return res.status(401).json({
-    //     error: "Unauthorized",
-    //     message: "User not authenticated",
-    //   });
-    // }
 
     const {
       itemTitle,
@@ -57,18 +55,22 @@ export const donateItem = async (req, res) => {
       });
     }
 
-    //1.
+    
     // Find category document
-    // const categoryDoc = await Category.findOne({
-    //   name: category.trim().replace(/\r?\n/g, " "),
-    // });
+    const categoryDoc = await Category.findOne({
+     name: category.trim().replace(/\r?\n/g, " "),
+     });
 
-    // if (!categoryDoc) {
-    //   return res.status(400).json({
-    //     error: "Invalid Category",
-    //     message: "The selected category does not exist",
-    //   });
-    // }
+    if (!categoryDoc) {
+       return res.status(400).json({
+         error: "Invalid Category",
+         message: "The selected category does not exist",
+       });
+     }
+
+     //Find Donor
+
+     
 
     // // Validate subcategory if provided
     // if (
@@ -109,6 +111,31 @@ export const donateItem = async (req, res) => {
       }
     }
 
+
+    //validating date
+    // Validate availableUntil
+let finalDate = null;
+if (availableUntil) {
+  finalDate = new Date(availableUntil);
+  const today = new Date();
+  today.setHours(0,0,0,0); // normalize to midnight
+
+  if (isNaN(finalDate.getTime())) {
+    return res.status(400).json({
+      error: "Validation Error",
+      message: "Invalid date format for availableUntil"
+    });
+  }
+
+  if (finalDate < today) {
+    return res.status(400).json({
+      error: "Validation Error",
+      message: "Available until date cannot be in the past"
+    });
+  }
+}
+
+
     // Handle image URLs // currently storing file paths, need to be changes to Urls when w store it in cloud
     const imageURLs =
       req.files && req.files.length > 0
@@ -120,19 +147,19 @@ export const donateItem = async (req, res) => {
       name: itemTitle.trim(),
       description: description ? description.trim() : "",
       pickup: location.trim(),
-      donorId: "68d631a64579b36c80a811f0", //3.
+      condition: condition.trim(),
+      donorId: req.user._id,
       isPaid: isPaid === "yes" || isPaid === true,
       price: finalPrice,
       urgent:
         urgentDonation === "on" ||
         urgentDonation === "true" ||
         urgentDonation === true,
-      available_until: availableUntil || null,
-      categoryId: "68d631a64579b36c80a811f0", //3.
+      available_until: finalDate || null,
+      categoryId: categoryDoc._id,
       subcategory: subcategory ? subcategory.trim() : "",
       preferences: contactMethodsArray,
       imageURL: imageURLs,
-      tags: condition ? [condition.trim()] : [],
     });
 
     console.log("Item created successfully:", newItem);
