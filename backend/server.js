@@ -148,6 +148,10 @@ app.get('/donate', ensureAuthenticated, (req, res) => {
     res.render('donate');
 });
 
+app.get('/catalog', (req, res) => {
+    res.render('catalog');
+})
+
 app.get("/admin", ensureAuthenticated, (req, res) => {
     res.render("admin");
 });
