@@ -1,21 +1,14 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import passport from 'passport';
-import session from 'express-session';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import connectDB from './config/db.js';
-import Admin from './models/admin.js';
-import Category from './models/categories.js';
-import Item from './models/items.js';
-import Message from './models/message.js';
-import Recommendation from './models/recommendations.js';
-import Report from './models/reports.js';
-import Request from './models/requests.js';
-import Transaction from './models/transaction.js';
-import UserModel from './models/users.js';
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import passport from "passport";
+import session from "express-session";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import connectDB from "./config/db.js";
 import dotenv from "dotenv";
-import User from './models/users.js';
+import User from "./models/users.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import donationRoutes from "./routes/donationroutes.js";
 
 dotenv.config();
 
@@ -24,9 +17,12 @@ const port = process.env.PORT || 5000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Define uploadDir BEFORE using it
+const uploadDir = path.join(__dirname, "uploads");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use("/uploads", express.static(uploadDir));
 app.use(session({
     secret: "secret",
     resave: false,
@@ -39,12 +35,12 @@ app.use(passport.session());
 // Make `user` available in all EJS views
 app.use((req, res, next) => {
     res.locals.user = req.user; // accessible in all EJS templates as `user`
-    // console.log('\n--------------\n', res.locals.user, '\n------------------\n');
     next();
 });
 
 // Serve static frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
+>>>>>>> Sree
 
 // Connect to DB
 connectDB();
@@ -122,6 +118,10 @@ app.get('/reg', (req, res) => {
     res.render('../frontend/views/reg.ejs');
 });
 
+app.get("/admin", (req, res) => {
+    res.render("../frontend/views/admin.ejs");
+});
+
 app.get('/user-profile', (req, res) => {
     res.render('../frontend/views/user-profile.ejs');
 });
@@ -153,6 +153,20 @@ app.post('/initial-login', async (req, res) => {
         res.status(500).send("Something went wrong during setup.");
     }
 });
+
+// API Routes
+app.use("/api/admin", adminRoutes);
+app.use("/api", donationRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: "Something went wrong!" });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
 
 // Start server
 app.listen(port, () => {

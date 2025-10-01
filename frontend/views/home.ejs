@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Homepage | reGive</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css" />
     <script src="js/script.js" defer></script>
-</head>
-<body>
+  </head>
+  <body>
     <%- include('partials/navbar') %>
-    
+
     <section id="donate">
-        <span>Donate to those who Need</span>
-        <button id="donate-btn">Donate</button>
+      <span>Donate to those who Need</span>
+      <button id="donate-btn">Donate</button>
     </section>
 
     <section id="small-catalog">
-        <span>Listings</span>
-        <div id="listings">
-            <ul id="list">
-                <% for (let i = 0; i < 5; i++) { %>
-                <li class="item">
-                    <img src="img/stock-item.jpg">
-                    <span class="item-name">Stationary</span>
-                    <span class="item-desc">A bunch of pencils and pens</span>
-                </li>
-                <% }; %>
-                <!-- Repeat sample items -->
-            </ul>
-        </div>
+      <span>Listings</span>
+      <div id="listings">
+        <ul id="list">
+          <% for (let i = 0; i < 5; i++) { %>
+          <li class="item">
+            <img src="img/stock-item.jpg" />
+            <span class="item-name">Stationary</span>
+            <span class="item-desc">A bunch of pencils and pens</span>
+          </li>
+          <% }; %>
+          <!-- Repeat sample items -->
+        </ul>
+      </div>
     </section>
 
     <footer>
-        <div>
-            <span>Contact Us</span>
-            <ul>
-                <li>Email</li>
-                <li>Phone No.</li>
-            </ul>
-        </div>
+      <div>
+        <span>Contact Us</span>
+        <ul>
+          <li>Email</li>
+          <li>Phone No.</li>
+        </ul>
+      </div>
     </footer>
-</body>
+  </body>
 </html>
