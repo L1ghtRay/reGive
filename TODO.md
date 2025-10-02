@@ -1,0 +1,4 @@
+- [x] Update GET /user-profile route in server.js to pass user data
+- [x] Clean up and update user-profile.ejs to use dynamic user data
+- [x] Add POST /user-profile route in server.js for updating profile
+- [x] Update JavaScript in EJS to submit form on save

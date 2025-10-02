@@ -11,7 +11,8 @@ import adminRoutes from "./routes/adminroutes.js";
 import donationRoutes from "./routes/donationroutes.js";
 import cookieParser from 'cookie-parser';
 import itemRoutes from   "./routes/itemroutes.js";
-import homeRoutes from "./routes/homeRoutes.js"; 
+import homeRoutes from "./routes/homeRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import leaderboardRoutes from "./routes/leaderboardroutes.js";
 
 
@@ -19,7 +20,7 @@ import leaderboardRoutes from "./routes/leaderboardroutes.js";
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -181,9 +182,7 @@ app.get("/admin", ensureAuthenticated, (req, res) => {
     res.render("admin");
 });
 
-app.get('/user-profile', ensureAuthenticated, (req, res) => {
-    res.render('user-profile');
-});
+
 
 app.get('/initial-login', (req, res) => {
     if (!req.isAuthenticated()) return res.redirect('/');
@@ -222,6 +221,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api", donationRoutes);
 app.use("/api",itemRoutes)
 app.use("/", homeRoutes);
+app.use("/", userRoutes);
 app.use("/api",leaderboardRoutes);
 
 

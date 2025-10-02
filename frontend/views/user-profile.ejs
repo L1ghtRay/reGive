@@ -19,23 +19,7 @@
                 editForm.style.display = "block";
             });
 
-            document
-                .getElementById("save-profile-btn")
-                .addEventListener("click", function (e) {
-                    e.preventDefault();
 
-                    document.getElementById("profile-name").textContent =
-                        document.getElementById("edit-name").value;
-                    document.getElementById("profile-email").textContent =
-                        document.getElementById("edit-email").value;
-                    document.getElementById("profile-phone").textContent =
-                        document.getElementById("edit-phone").value;
-                    document.getElementById("profile-location").textContent =
-                        document.getElementById("edit-location").value;
-
-                    editForm.style.display = "none";
-                    profileInfo.style.display = "block";
-                });
 
             document
                 .getElementById("cancel-profile-btn")
@@ -59,7 +43,7 @@
                 <div>
                     <div id="profile-info">
                         <div>
-                            <strong>Name:</strong> <span id="profile-name"><%= user.name %></span>
+                            <strong>Name:</strong> <span id="profile-name"><%= user.displayName %></span>
                         </div>
                         <div>
                             <strong>Email:</strong>
@@ -67,35 +51,35 @@
                         </div>
                         <div>
                             <strong>Phone:</strong>
-                            <span id="profile-phone"><%= user.phone %></span>
+                            <span id="profile-phone"><%= user.phone || 'Not provided' %></span>
                         </div>
                         <div>
                             <strong>Location:</strong>
-                            <span id="profile-location"><%= user.location %></span>
+                            <span id="profile-location"><%= user.address || 'Not provided' %></span>
                         </div>
-                        <div><strong>Joined Date:</strong> <%= user.joinedDate %></div>
+                        <div><strong>Joined Date:</strong> <%= new Date(user.joinedAt).toLocaleDateString() %></div>
                         <button id="edit-profile-btn">Edit Profile</button>
                         <button>Change Password</button>
                     </div>
 
                     <!-- Edit Form -->
-                    <form id="edit-profile-form" style="display: none">
+                    <form id="edit-profile-form" action="/user-profile" method="POST" style="display: none">
                         <div>
-                            <label>Name: <input type="text" id="edit-name" value="<%= user.name %>" /></label>
+                            <label>Name: <input type="text" name="displayName" id="edit-name" value="<%= user.displayName %>" /></label>
                         </div>
                         <div>
                             <label>Email:
-                                <input type="email" id="edit-email" value="<%= user.email %>" /></label>
+                                <input type="email" name="email" id="edit-email" value="<%= user.email %>" readonly /></label>
                         </div>
                         <div>
                             <label>Phone:
-                                <input type="text" id="edit-phone" value="<%= user.phone %>" /></label>
+                                <input type="text" name="phone" id="edit-phone" value="<%= user.phone || '' %>" /></label>
                         </div>
                         <div>
                             <label>Location:
-                                <input type="text" id="edit-location" value="<%= user.location %>" /></label>
+                                <input type="text" name="address" id="edit-location" value="<%= user.address || '' %>" /></label>
                         </div>
-                        <button id="save-profile-btn">Save</button>
+                        <button type="submit" id="save-profile-btn">Save</button>
                         <button id="cancel-profile-btn">Cancel</button>
                     </form>
                 </div>
@@ -104,26 +88,35 @@
         <section class="profile-section">
             <h2>Rewards & Stats</h2>
             <div class="profile-stats">
-                <div><strong>Total Reward Points:</strong> 120</div>
+                <div><strong>Total Reward Points:</strong> <%= user.points %></div>
                 <div><strong>Items Donated:</strong> 12</div>
             </div>
         </section>
         <section class="profile-section">
             <h2>Active Listings</h2>
             <div class="listings">
-                <% user.activeListings.forEach(function(listing) { %>
                 <div class="listing-item">
-                    <img src="<%= listing.image %>" alt="Item Image" />
+                    <img src="img/stock-item.jpg" alt="Item Image" />
                     <div>
-                        <div><strong>Name:</strong> <%= listing.name %></div>
-                        <div><strong>Category:</strong> <%= listing.category %></div>
-                        <div><strong>Condition:</strong> <%= listing.condition %></div>
-                        <div><strong>Date Posted:</strong> <%= listing.datePosted %></div>
+                        <div><strong>Name:</strong> Stationary Set</div>
+                        <div><strong>Category:</strong> Stationary</div>
+                        <div><strong>Condition:</strong> New</div>
+                        <div><strong>Date Posted:</strong> 01 Aug 2025</div>
                         <button>Edit</button>
                         <button>Remove</button>
                     </div>
                 </div>
-                <% }); %>
+                <div class="listing-item">
+                    <img src="img/stock-item.jpg" alt="Item Image" />
+                    <div>
+                        <div><strong>Name:</strong> Backpack</div>
+                        <div><strong>Category:</strong> Bags</div>
+                        <div><strong>Condition:</strong> Used</div>
+                        <div><strong>Date Posted:</strong> 15 Jul 2025</div>
+                        <button>Edit</button>
+                        <button>Remove</button>
+                    </div>
+                </div>
             </div>
         </section>
         <section class="profile-section">
