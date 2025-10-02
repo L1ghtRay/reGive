@@ -25,7 +25,7 @@ import Category from '../models/categories.js';
             // return ALL items belonging to that category ID.
             items = await Item.find({ categoryId: category._id })
                               .populate('categoryId', 'name')
-                              .populate('donorId', 'name email')
+                              .populate('donorId', 'displayName email')
                               .exec();
         } 
         
@@ -40,7 +40,7 @@ import Category from '../models/categories.js';
                 ]
             })
             .populate('categoryId', 'name')
-            .populate('donorId', 'name email')
+            .populate('donorId', 'displayName email')
             .exec();
         }
         

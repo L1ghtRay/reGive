@@ -5,6 +5,7 @@
 */
 import Category from "../models/categories.js";
 import Item from "../models/items.js";
+import User from "../models/users.js"
 
 export const donateItem = async (req, res) => {
   try {
@@ -32,6 +33,14 @@ export const donateItem = async (req, res) => {
       price,
       contactMethods,
     } = req.body;
+
+
+
+    //increment points after  a donation
+    await User.findByIdAndUpdate(req.user._id, {
+  $inc: { points: 10 }  
+});
+
 
     // Validate required fields
     if (!itemTitle || !itemTitle.trim()) {

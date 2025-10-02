@@ -12,6 +12,8 @@ import donationRoutes from "./routes/donationroutes.js";
 import cookieParser from 'cookie-parser';
 import itemRoutes from   "./routes/itemroutes.js";
 import homeRoutes from "./routes/homeRoutes.js"; 
+import leaderboardRoutes from "./routes/leaderboardroutes.js";
+
 
 
 dotenv.config();
@@ -136,9 +138,32 @@ app.set('views', path.join(__dirname, '../frontend/views'));
 
 // Page Routes
 
-app.get('/', (req, res) => {
+/*app.get('/', (req, res) => {
     res.render('home');
+});*/
+
+
+
+app.get("/", async (req, res) => {
+  try {
+    // Fetch top 5 donors sorted by totalPoints descending
+    const topDonors = await User.find({}, "displayName profile points")
+      .sort({ points: -1 })
+      .limit(5);
+    //console.log(topDonors);
+
+    // Render home page and pass topDonors to EJS
+    res.render("home", { topDonors });
+  } catch (err) {
+    console.error("Error fetching top donors:", err);
+    res.render("home", { topDonors: [] });
+  }
 });
+
+
+
+
+
 
 app.get('/category', ensureAuthenticated, (req, res) => {
     res.render('category');
@@ -197,6 +222,8 @@ app.use("/api/admin", adminRoutes);
 app.use("/api", donationRoutes);
 app.use("/api",itemRoutes)
 app.use("/", homeRoutes);
+app.use("/api",leaderboardRoutes);
+
 
 // for images 
 

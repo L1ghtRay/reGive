@@ -15,10 +15,18 @@
 <body>
     <%- include('partials/navbar') %>
 
+
+
+
     <section id="donate">
         <span>Donate to those who Need</span>
         <button id="donate-btn">Donate</button>
     </section>
+        </section>
+        <section id="leaderboard" class="leaderboard-section">
+  <h2>Top Donors</h2>
+  <ul id="leaderboardList"></ul>
+</section>
 
     <section id="small-catalog">
       <span>Frequently Donated Items</span>
@@ -47,7 +55,7 @@
           <% } %>
         </ul>
       </div>
-    </section>
+
 
     <%- include('partials/footer') %>
 </body>

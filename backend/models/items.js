@@ -37,6 +37,7 @@ preferences: {
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "category",
+
       required: true,
     },
     subcategory: { type: String, required: true },
