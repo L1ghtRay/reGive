@@ -150,7 +150,7 @@ app.get("/", async (req, res) => {
     const topDonors = await User.find({}, "displayName profile points")
       .sort({ points: -1 })
       .limit(5);
-console.log(topDonors);
+    //console.log(topDonors);
 
     // Render home page and pass topDonors to EJS
     res.render("home", { topDonors });

@@ -5,6 +5,7 @@
 */
 import Category from "../models/categories.js";
 import Item from "../models/items.js";
+import User from "../models/users.js"
 
 export const donateItem = async (req, res) => {
   try {
