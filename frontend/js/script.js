@@ -120,3 +120,12 @@ async function loadLeaderboard() {
 
 document.addEventListener("DOMContentLoaded", loadLeaderboard);
 
+
+//donate buttton fnality adding
+
+var x = document.getElementById("donate-btn");
+x.addEventListener("click", () => {
+  window.location.href = "/category";
+});
+
+
