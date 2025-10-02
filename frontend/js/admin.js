@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>${user.name}</td>
           <td>${user.email}</td>
           <td>
-            <button data-id="${user.id}" class="delete-user-btn">Delete</button>
+            <button data-id="${user._id}" class="delete-user-btn">Delete</button>
           </td>`;
         tbody.appendChild(tr);
       });
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>${item.status}</td>
           <td>
             <button>Edit</button>
-            <button class="delete-item-btn" data-id="${item.id}">Delete</button>
+            <button class="delete-item-btn" data-id="${item._id}">Delete</button>
           </td>`;
         tbody.appendChild(tr);
       });
@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target.classList.contains("resolve-report-btn")) {
           const id = e.target.dataset.id;
           fetch("/api/admin/reports/" + id + "/resolve", {
+            //todo : implement the resolve btu havent decided what to do in this
             method: "POST",
           }).then(() => e.target.closest("tr").remove());
         }

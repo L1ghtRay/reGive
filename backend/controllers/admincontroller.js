@@ -14,6 +14,22 @@ export const FetchUsers = async (req, res) => {
   }
 };
 
+export const DeleteUsers = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) return res.status(400).json({ message: "Id wasn't received" });
+
+    await user.deleteOne({ _id: id });
+
+    res.status(200).json({
+      message: "Deletion successful",
+    });
+  } catch (error) {
+    console.error("Error deleting the user", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 export const FetchItems = async (req, res) => {
   try {
     const items = await item.find();
@@ -21,6 +37,20 @@ export const FetchItems = async (req, res) => {
   } catch (error) {
     console.error("Error fetching items:", error);
     res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const DeleteItems = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) return res.status(400).json({ message: "Id wasn't received" });
+
+    const deleted = await item.deleteOne({ _id: id });
+
+    res.status(200).json({ message: "Item deletion successful" });
+  } catch (error) {
+    console.error("Error deleting the item:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
