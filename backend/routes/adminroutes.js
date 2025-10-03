@@ -8,6 +8,7 @@ import {
   FetchReports,
   DeleteItems,
   DeleteUsers,
+  GetStatistics,
 } from "../controllers/admincontroller.js";
 const router = express.Router();
 
@@ -17,5 +18,6 @@ router.get("/items", FetchItems);
 router.delete("/items/:id", DeleteItems);
 router.get("/transactions", FetchTransactions);
 router.get("/reports", FetchReports);
+router.get("/get-stats", GetStatistics);
 
 export default router;

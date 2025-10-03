@@ -2,7 +2,7 @@
 // This file will be modified once the admin dashboard is fully functional
 // This file is just to test if the frontend can fetch data from the backend
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("/api/admin/statistics")
+  fetch("/api/admin/get-stats")
     .then((res) => res.json())
     .then((data) => {
       document.getElementById("totalUsers").textContent = data.totalUsers;
@@ -51,7 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>${item.categoryId}</td>
           <td>${item.status}</td>
           <td>
-            <button>Edit</button>
             <button class="delete-item-btn" data-id="${item._id}">Delete</button>
           </td>`;
         tbody.appendChild(tr);

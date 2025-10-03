@@ -73,3 +73,22 @@ export const FetchReports = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const GetStatistics = async (req, res) => {
+  try {
+    const totalUsers = await user.countDocuments();
+    const totalItems = await item.countDocuments();
+    const totalTransactions = await transactions.countDocuments();
+    const totalReports = await reports.countDocuments();
+
+    res.status(200).json({
+      totalUsers,
+      totalItems,
+      totalTransactions,
+      totalReports,
+    });
+  } catch (error) {
+    console.error("Error fetching statistics:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
