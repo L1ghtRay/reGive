@@ -9,16 +9,17 @@ import dotenv from "dotenv";
 import User from "./models/users.js";
 import adminRoutes from "./routes/adminroutes.js";
 import donationRoutes from "./routes/donationroutes.js";
-import cookieParser from "cookie-parser";
-import itemRoutes from "./routes/itemroutes.js";
+import cookieParser from 'cookie-parser';
+import itemRoutes from   "./routes/itemroutes.js";
 import homeRoutes from "./routes/homeRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import leaderboardRoutes from "./routes/leaderboardroutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -236,6 +237,7 @@ app.use("/api", donationRoutes);
 app.use("/api", itemRoutes);
 app.use("/api/user", userRoutes);
 app.use("/", homeRoutes);
+app.use("/", userRoutes);
 app.use("/api", leaderboardRoutes);
 
 // for images
